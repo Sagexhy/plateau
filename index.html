@@ -1,22 +1,123 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <!-- 引入霞鹜新致宋在线字体 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-neo-zhisong@latest/lxgwneozhisong.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的动态背景网页</title>
+    <title>Sage 的主页</title>
     <style>
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        html.is-programmatic-scrolling { scroll-behavior: auto; }
+
         body {
             margin: 0;
-            padding: 0;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            height: 100vh;
+            color: white;
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            background: #081426;
+        }
+
+        .section {
+            position: relative;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: 48px 24px;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: white;
-            font-family: sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .home {
+            background: linear-gradient(-45deg, #081426, #102f4a, #2f6681, #191f3c);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        .home::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background:
+                linear-gradient(rgba(126, 183, 216, 0.06), rgba(8, 20, 38, 0.08)),
+                url("images/about-photo.jpg") center 28% / cover no-repeat;
+            opacity: var(--transition-opacity, 0);
+            transform: translateY(var(--transition-y, 18%)) scale(var(--transition-scale, 1.04));
+            filter: blur(var(--transition-blur, 6px));
+            will-change: opacity, transform, filter;
+            pointer-events: none;
+        }
+
+        .about,
+        .projects,
+        .contact {
+            color: #172033;
+            background: linear-gradient(180deg, #ffffff, #f7fafc);
+        }
+
+        .about {
+            /* 将原本较深的 #7eb7d8 改为更清淡、更亮的浅蓝色 */
+            background: #95c8e6; 
+        }
+
+        .about-photo {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 28%;
+            /* 将透明度从 0.86 降到 0.75，让底部的浅蓝色透出来 */
+            opacity: 0.75; 
+            /* 提高 brightness(亮度) 至 1.15，降低 saturate(饱和度) 至 0.85，使色彩更淡 */
+            filter: blur(var(--sky-blur, 0px)) saturate(0.85) brightness(1.15) contrast(0.95);
+            transform: scale(1.035);
+            animation: sky-drift 26s ease-in-out infinite;
+            will-change: transform, filter;
+            pointer-events: none;
+        }
+
+        @keyframes sky-drift {
+            0%, 100% {
+                transform: scale(1.035) translate3d(-0.12%, 0, 0);
+            }
+
+            50% {
+                transform: scale(1.055) translate3d(0.12%, -0.4%, 0);
+            }
+        }
+
+        .about::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.24), transparent 42%),
+                linear-gradient(to bottom, rgba(247, 250, 252, 0.12), transparent 36%, rgba(8, 20, 38, 0.07));
+            background-size: 180% 180%, 100% 100%;
+            animation: sky-light 12s ease-in-out infinite;
+            will-change: background-position;
+            pointer-events: none;
+        }
+
+        @keyframes sky-light {
+            0%, 100% {
+                background-position: 0% 40%, 0 0;
+            }
+
+            50% {
+                background-position: 100% 60%, 0 0;
+            }
         }
 
         @keyframes gradient {
@@ -25,21 +126,427 @@
             100% { background-position: 0% 50%; }
         }
 
+        .stars {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: var(--size);
+            height: var(--size);
+            border-radius: 50%;
+            background: white;
+            opacity: 0;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        .petals {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .petal {
+            position: absolute;
+            top: -12%;
+            width: var(--size);
+            height: calc(var(--size) * 0.72);
+            border-radius: 70% 30% 70% 30%;
+            z-index: var(--depth-layer);
+            background: linear-gradient(135deg, #f8dce5, #efb7c8);
+            opacity: 0;
+            filter: blur(var(--blur)) drop-shadow(0 3px 3px rgba(181, 97, 126, 0.12));
+            animation: petal-fall var(--duration) linear infinite;
+            animation-delay: var(--delay);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.15; transform: scale(0.7); }
+            50% { opacity: 1; transform: scale(1.35); }
+        }
+
+        @keyframes petal-fall {
+            0% {
+                opacity: 0;
+                transform: translate3d(0, -10vh, 0) rotate(0deg);
+            }
+
+            12%, 88% { opacity: var(--opacity); }
+
+            100% {
+                opacity: 0;
+                transform: translate3d(var(--drift), 120vh, 0) rotate(var(--rotation));
+            }
+        }
+
         .content {
-            text-align: center;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 40px;
-            border-radius: 12px;
-            backdrop-filter: blur(5px);
+            position: relative;
+            z-index: 1;
+            width: min(100%, 720px);
+            padding: clamp(30px, 6vw, 52px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 18px;
+            background: rgba(0, 0, 0, 0.28);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .home .content {
+            z-index: 2;
+            opacity: var(--home-content-opacity, 1);
+            transform: translateY(var(--home-content-y, 0));
+            will-change: opacity, transform;
+        }
+
+        .section:not(.home) .content {
+            z-index: 2;
+            border-color: #dfe7ed;
+            background: #ffffff;
+            box-shadow: 0 18px 50px rgba(8, 20, 38, 0.09);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+
+        h1, h2 { margin: 0 0 18px; }
+        h1 { font-size: clamp(2.4rem, 8vw, 5rem); }
+        h2 { font-size: clamp(2rem, 6vw, 3.6rem); }
+
+        p {
+            margin: 0;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            line-height: 1.8;
+        }
+
+        .next-link {
+            display: inline-block;
+            margin-top: 28px;
+            padding: 11px 22px;
+            color: white;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .next-link:hover {
+            background: rgba(255, 255, 255, 0.22);
+            transform: translateY(-2px);
+        }
+
+        .section:not(.home) .next-link {
+            color: #172033;
+            border-color: #cbd9e2;
+            background: #f7fafc;
+        }
+
+        .section:not(.home) .next-link:hover {
+            background: #eaf2f6;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .home, .star { animation: none; }
+            .star { opacity: 0.6; }
+            .petal { display: none; }
+            .about-photo, .about::after { animation: none; }
+        }
+        /* ===== 第二页：蓝色半透明主题定制 ===== */
+        
+        /* 1. 外层面板背景改为半透明冰蓝 */
+        .about .content {
+            background: rgba(235, 248, 255, 0.45); 
+            border-color: rgba(149, 200, 230, 0.5);
+        }
+
+        /* 2. 面板大标题与副标题文字：深蓝 + 半透明 */
+        .about h2 {
+            color: rgba(24, 68, 114, 0.85); 
+        }
+        .about > .content > p {
+            color: rgba(42, 92, 138, 0.8); 
+        }
+
+        /* 3. 卡片背景与边框：进一步提高透明度，融入背景 */
+        .about .card {
+            background: rgba(255, 255, 255, 0.35); 
+            border: 1px solid rgba(149, 200, 230, 0.4);
+        }
+
+        /* 4. 卡片内的标题与正文：蓝色半透明 */
+        .about .card h3 {
+            color: rgba(24, 68, 114, 0.85); 
+        }
+        .about .card p {
+            color: rgba(48, 102, 147, 0.75); 
+        }
+
+        /* 5. 按钮样式：微透蓝底 + 深蓝文字 */
+        .about .card-link, 
+        .about .next-link {
+            color: rgba(24, 68, 114, 0.9);
+            background: rgba(149, 200, 230, 0.3);
+            border: 1px solid rgba(149, 200, 230, 0.5);
+        }
+
+        /* 6. 按钮悬停效果：加深颜色 */
+        .about .card-link:hover, 
+        .about .next-link:hover {
+            background: rgba(149, 200, 230, 0.65);
+            color: rgba(10, 40, 75, 0.95);
+            border-color: rgba(149, 200, 230, 0.8);
+        }
+
+        /* 替换为：通栏大横条毛玻璃导航 */
+        .about-nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 24px 5%; /* 增加上下内边距，让横条更宽大厚实 */
+            display: flex;
+            justify-content: center;
+            gap: 56px; /* 拉大文字之间的间距，避免在大横条里显得拥挤 */
+            z-index: 10;
+            
+            /* 核心：玻璃渐变底色与强模糊效果 */
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.15));
+            backdrop-filter: blur(16px) saturate(120%);
+            -webkit-backdrop-filter: blur(16px) saturate(120%);
+            
+            /* 核心：因为紧贴顶部，所以取消了上边框，只保留底部的切边反光和分割线 */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+            
+            /* 大横条的底部弥散阴影 */
+            box-shadow: 0 12px 32px 0 rgba(31, 38, 135, 0.08);
+        }
+
+        .about-nav a {
+            color: rgba(24, 68, 114, 0.95);
+            text-decoration: none;
+            font-size: 1.15rem; /* 字体稍微放大一点，撑起横条的体量感 */
+            font-weight: 600;
+            letter-spacing: 2px;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .about-nav a:hover {
+            color: #081426;
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.9); 
+        }
+
+        /* 将霞鹜新致宋应用到所有标题、导航栏和按钮 */
+        h1, h2, h3, .about-nav a, .card-link, .next-link {
+            font-family: "LXGW Neo ZhiSong", "霞鹜新致宋", "仿宋", FangSong, serif;
+            font-weight: normal; /* 霞鹜新致宋本身较细，保持 normal 质感最好 */
         }
     </style>
 </head>
 <body>
+    <section class="section home" id="home">
+        <div class="stars" aria-hidden="true"></div>
+        <div class="content">
+            <h1>VoidOrbit0</h1>
+            <p>欢迎来到我的个人主页</p>
+            <a class="next-link" href="#about">向下探索</a>
+        </div>
+    </section>
 
-    <div class="content">
-        <h1>欢迎来到 VoidOrbit0 的主页</h1>
-        <p>这是一个拥有流光渐变动态背景的网站！</p>
-    </div>
+    <section class="section about" id="about">
+        
+        
+        <!-- 新增的白色半透明导航栏 -->
+        <nav class="about-nav">
+            <a href="#home">返回首页</a>
+            <a href="#about">探索指南</a>
+            <a href="#projects">项目空间</a>
+            <a href="#contact">留言板</a>
+        </nav>
 
+        <img
+            class="about-photo"
+            src="images/about-photo.jpg"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+        >
+        <!-- 下面是你原本的 petals 和 content 代码... -->
+        <img
+            class="about-photo"
+            src="images/about-photo.jpg"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+        >
+        <div class="petals" aria-hidden="true"></div>
+    </section>
+
+    <section class="section projects" id="projects">
+        <div class="petals" aria-hidden="true"></div>
+        <div class="content">
+            <h2>我的作品</h2>
+            <p>这里可以展示你的 GitHub 项目、作品图片和项目介绍。</p>
+            <a class="next-link" href="#contact">联系我</a>
+        </div>
+    </section>
+
+    <section class="section contact" id="contact">
+        <div class="petals" aria-hidden="true"></div>
+        <div class="content">
+            <h2>联系我</h2>
+            <p>GitHub：VoidOrbit0</p>
+            <a class="next-link" href="#home">返回顶部</a>
+        </div>
+    </section>
+
+    <script>
+        const starsContainer = document.querySelector(".stars");
+        const starCount = 120;
+
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement("span");
+            const size = Math.random() * 2.2 + 0.8;
+
+            star.className = "star";
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.setProperty("--size", `${size}px`);
+            star.style.setProperty("--duration", `${Math.random() * 3 + 2}s`);
+            star.style.setProperty("--delay", `${Math.random() * -5}s`);
+
+            starsContainer.appendChild(star);
+        }
+
+        document.querySelectorAll(".petals").forEach((petalsContainer) => {
+            const petalCount = 24;
+
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement("span");
+                const depth = Math.random();
+                const size = 7 + depth * 12;
+
+                petal.className = "petal";
+                petal.style.left = `${Math.random() * 100}%`;
+                petal.style.setProperty("--size", `${size}px`);
+                petal.style.setProperty("--drift", `${Math.random() * 180 - 90}px`);
+                petal.style.setProperty("--rotation", `${Math.random() * 720 - 360}deg`);
+                petal.style.setProperty("--opacity", `${0.25 + depth * 0.45}`);
+                petal.style.setProperty("--blur", `${(1 - depth) * 1.6}px`);
+                petal.style.setProperty("--depth-layer", `${Math.ceil(depth * 3)}`);
+                petal.style.setProperty("--duration", `${16 - depth * 6}s`);
+                petal.style.setProperty("--delay", `${Math.random() * -16}s`);
+
+                petalsContainer.appendChild(petal);
+            }
+        });
+
+        const homeSection = document.querySelector(".home");
+        const aboutSection = document.querySelector(".about");
+        const exploreLink = document.querySelector('.home .next-link');
+        let scrollTicking = false;
+        let isPageTransitioning = false;
+
+        function updateHomeTransition() {
+            const homeHeight = homeSection.offsetHeight;
+            const progress = Math.min(Math.max(window.scrollY / (homeHeight * 0.85), 0), 1);
+            const easedProgress = progress * progress * (3 - 2 * progress);
+
+            homeSection.style.setProperty("--transition-opacity", easedProgress.toFixed(3));
+            homeSection.style.setProperty("--transition-y", `${(1 - easedProgress) * 18}%`);
+            homeSection.style.setProperty("--transition-scale", `${1.04 - easedProgress * 0.02}`);
+            homeSection.style.setProperty("--transition-blur", `${(1 - easedProgress) * 6}px`);
+            homeSection.style.setProperty("--home-content-opacity", `${1 - easedProgress}`);
+            homeSection.style.setProperty("--home-content-y", `${easedProgress * -24}px`);
+            aboutSection.style.setProperty("--sky-blur", `${(1 - easedProgress) * 4}px`);
+
+            scrollTicking = false;
+        }
+
+        window.addEventListener("scroll", () => {
+            if (!scrollTicking) {
+                window.requestAnimationFrame(updateHomeTransition);
+                scrollTicking = true;
+            }
+        }, { passive: true });
+
+        window.addEventListener("resize", updateHomeTransition);
+        updateHomeTransition();
+
+        function animateScrollTo(targetY, duration = 700) {
+            if (isPageTransitioning) return;
+
+            const startY = window.scrollY;
+            const distance = targetY - startY;
+            const startTime = performance.now();
+            const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+            if (reduceMotion) {
+                window.scrollTo(0, targetY);
+                return;
+            }
+
+            isPageTransitioning = true;
+            document.documentElement.classList.add("is-programmatic-scrolling");
+
+            function step(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = progress < 0.5
+                    ? 4 * progress * progress * progress
+                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+                window.scrollTo(0, startY + distance * eased);
+
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    document.documentElement.classList.remove("is-programmatic-scrolling");
+                    isPageTransitioning = false;
+                }
+            }
+
+            window.requestAnimationFrame(step);
+        }
+
+        window.addEventListener("wheel", (event) => {
+            const aboutTop = aboutSection.offsetTop;
+
+            if (isPageTransitioning) {
+                event.preventDefault();
+                return;
+            }
+
+            if (event.deltaY > 0 && window.scrollY < aboutTop * 0.65) {
+                event.preventDefault();
+                animateScrollTo(aboutTop, 760);
+                return;
+            }
+
+            if (
+                event.deltaY < 0 &&
+                window.scrollY > aboutTop * 0.55 &&
+                window.scrollY <= aboutTop + 32
+            ) {
+                event.preventDefault();
+                animateScrollTo(0, 760);
+            }
+        }, { passive: false });
+
+        exploreLink.addEventListener("click", (event) => {
+            event.preventDefault();
+            animateScrollTo(aboutSection.offsetTop, 760);
+        });
+    </script>
 </body>
 </html>
