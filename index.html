@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <!-- 引入霞鹜新致宋在线字体 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-neo-zhisong@latest/lxgwneozhisong.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sage 的主页</title>
+    <title>Sage 的主页 · Plateau</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-neo-zhisong@latest/lxgwneozhisong.css">
     <style>
         * { box-sizing: border-box; }
 
@@ -253,134 +252,171 @@
             background: #eaf2f6;
         }
 
+        /* 页面布局：星空开场、天空留白、作品画廊、联系页脚。 */
+        :root { --ink: #172b3c; --muted: #637784; --paper: #f5f8fa; }
+        a { -webkit-tap-highlight-color: transparent; }
+        a:focus-visible { outline: 2px solid #80bad8; outline-offset: 7px; }
+        .section { padding-inline: clamp(24px, 6vw, 96px); }
+        .home { align-items: stretch; text-align: left; isolation: isolate; }
+        .masthead {
+            position: absolute; inset: 0 0 auto; z-index: 3;
+            padding: 30px clamp(24px, 6vw, 96px);
+            display: flex; justify-content: space-between; align-items: center; gap: 24px;
+        }
+        .brand { color: #f1f7fb; font-weight: 650; letter-spacing: -0.03em; text-decoration: none; }
+        .brand-dot { display: inline-block; width: 8px; height: 8px; background: #c0deed; border-radius: 50%; margin-right: 12px; }
+        .nav-links { display: flex; gap: clamp(20px, 3vw, 42px); }
+        .nav-links a { color: #d0e1ec; text-decoration: none; font-size: 13px; }
+        .nav-links a:hover { color: white; }
+        .home .content {
+            width: min(100%, 1200px); margin: 0 auto;
+            padding: 90px 0; border: 0; border-radius: 0;
+            background: none; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
+        }
+        .eyebrow { font-size: 11px; line-height: 1.5; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; }
+        .home .eyebrow { color: #b0ccdf; margin-bottom: 30px; }
+        .home h1 { font-size: clamp(48px, 9.1vw, 140px); font-weight: 550; line-height: 1.07; letter-spacing: -0.065em; margin: 0 0 30px; }
+        .hero-description { color: #c0d2e1; font-size: clamp(16px, 1.5vw, 20px); line-height: 1.9; }
+        .hero-description span { display: block; }
+        .home .next-link { display: inline-flex; gap: 34px; align-items: center; padding: 16px 0; margin-top: 28px; border: 0; border-bottom: 1px solid #8aabb866; border-radius: 0; background: none; font-size: 14px; }
+        .home .next-link:hover { background: none; border-color: #d8ebf7; }
+        .hero-footer { position: absolute; left: clamp(24px, 6vw, 96px); right: clamp(24px, 6vw, 96px); bottom: 30px; display: flex; justify-content: space-between; gap: 18px; color: #aac2d5; z-index: 2; font-size: 10px; letter-spacing: 0.17em; }
+        .orbit-art { position: absolute; z-index: 0; width: min(54vw, 770px); aspect-ratio: 1; right: -12%; top: 13%; border: 1px solid #9bbfd523; border-radius: 50%; pointer-events: none; }
+        .orbit-art::before, .orbit-art::after { content: ''; position: absolute; border: 1px solid #9bbfd51c; border-radius: 50%; }
+        .orbit-art::before { inset: 12%; }
+        .orbit-art::after { inset: 26%; }
+        .about { isolation: isolate; padding-top: 130px; padding-bottom: 110px; }
+        .journal { position: relative; z-index: 2; width: min(100%, 1100px); text-align: left; display: grid; grid-template-columns: 0.8fr 1.4fr; gap: clamp(32px, 6vw, 90px); align-items: start; }
+        .journal-heading { color: #18364d; padding-top: 28px; }
+        .journal-heading .eyebrow { margin-bottom: 22px; }
+        .journal-heading h2 { font-size: clamp(38px, 5vw, 66px); font-weight: 400; margin-bottom: 24px; }
+        .journal-heading > p:last-child { font-size: 15px; line-height: 2; }
+        .essay-list { margin: 0; padding: 0; list-style: none; border: 1px solid #ffffffaa; border-radius: 12px; background: rgba(247, 251, 254, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 18px 60px #193c5510; overflow: hidden; }
+        .essay-list li + li { border-top: 1px solid #bed0dc88; }
+        .essay-link { display: grid; grid-template-columns: 25px 1fr 24px; gap: 18px; align-items: start; padding: 30px; text-decoration: none; color: #18364d; transition: background 0.2s; }
+        .essay-link:hover, .essay-link:focus-visible { background: #ffffffcc; }
+        .essay-link:focus-visible { outline-offset: -3px; }
+        .essay-number { padding-top: 5px; font-size: 11px; color: #5a7486; }
+        .essay-meta { display: block; font-size: 11px; color: #5a7486; margin-bottom: 10px; letter-spacing: 0.08em; }
+        .essay-link h3 { font-weight: 400; font-size: 25px; margin: 0 0 10px; }
+        .essay-link p { font-size: 13px; line-height: 1.8; color: #526b7c; }
+        .essay-arrow { align-self: center; }
+        @media (max-width: 800px) {
+            .journal { grid-template-columns: 1fr; gap: 28px; }
+            .journal-heading { padding-top: 0; }
+            .journal-heading h2 { margin-bottom: 14px; }
+            .essay-link { padding: 24px 20px; gap: 12px; }
+            .essay-link h3 { font-size: 23px; }
+        }
+        .sky-caption { position: absolute; z-index: 2; bottom: 38px; left: clamp(24px, 6vw, 96px); right: clamp(24px, 6vw, 96px); display: flex; justify-content: space-between; gap: 20px; align-items: end; color: #193952; }
+        .sky-caption p { font-size: 12px; letter-spacing: 0.14em; }
+        .sky-caption a { font-size: 12px; color: inherit; text-decoration: none; border-bottom: 1px solid #19395255; padding-bottom: 8px; }
+        .projects { min-height: auto; padding-block: clamp(80px, 10vw, 150px); background: var(--paper); text-align: left; align-items: stretch; isolation: isolate; }
+        .section-heading, .work-grid { width: min(100%, 1200px); margin-inline: auto; position: relative; z-index: 2; }
+        .section-heading { display: flex; justify-content: space-between; gap: 36px; align-items: end; margin-bottom: 48px; }
+        .section-heading .eyebrow { color: var(--muted); margin-bottom: 18px; }
+        .section-heading h2 { color: var(--ink); font-size: clamp(32px, 4vw, 54px); font-weight: 550; letter-spacing: -0.035em; margin-bottom: 0; }
+        .section-heading > p { font-size: 14px; color: var(--muted); line-height: 1.9; max-width: 260px; }
+        .work-grid { display: grid; grid-template-columns: 1.22fr 1fr; gap: 44px; align-items: start; }
+        .work-card { min-width: 0; }
+        .work-card:nth-child(2) { padding-top: 80px; }
+        .work-visual { display: block; position: relative; width: 100%; aspect-ratio: 1.25; overflow: hidden; border-radius: 5px; background: #a5c6dc; text-decoration: none; color: white; }
+        .work-visual img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .work-visual:hover img { transform: scale(1.035); }
+        .work-badge { position: absolute; top: 20px; left: 20px; padding: 7px 10px; font-size: 9px; letter-spacing: 0.15em; background: #102b414d; border: 1px solid #ffffff33; border-radius: 2px; }
+        .work-arrow { position: absolute; right: 20px; bottom: 20px; width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid #ffffff77; border-radius: 50%; }
+        .code-visual { background: radial-gradient(ellipse at 75% 20%, #335875, transparent 65%), #0e2136; display: flex; align-items: center; justify-content: center; }
+        .code-visual::before { content: ''; width: 64%; aspect-ratio: 1; border: 1px solid #91bfd344; border-radius: 50%; position: absolute; }
+        .code-visual span.code-name { position: relative; font-size: clamp(24px, 3vw, 42px); letter-spacing: -0.05em; }
+        .work-meta { display: flex; justify-content: space-between; gap: 20px; margin-top: 22px; border-bottom: 1px solid #d9e2e8; padding-bottom: 20px; }
+        .work-meta h3 { margin: 0 0 7px; font-size: 19px; font-weight: 550; color: var(--ink); }
+        .work-meta p, .work-meta > span { font-size: 11px; color: var(--muted); line-height: 1.7; }
+        .contact { min-height: auto; padding-block: 84px 28px; align-items: stretch; background: #081426; color: #eef5fa; text-align: left; isolation: isolate; }
+        .contact-inner { width: min(100%, 1200px); margin-inline: auto; position: relative; z-index: 2; }
+        .contact .eyebrow { color: #95afc1; margin-bottom: 25px; }
+        .contact-row { display: flex; justify-content: space-between; align-items: center; gap: 32px; padding-bottom: 70px; }
+        .contact h2 { font-weight: 500; font-size: clamp(32px, 4.5vw, 60px); letter-spacing: -0.035em; margin-bottom: 16px; }
+        .contact-row p { color: #9cb1c3; font-size: 14px; }
+        .github-link { text-decoration: none; color: #edf5fb; border: 1px solid #6c839866; border-radius: 999px; padding: 17px 28px; font-size: 14px; white-space: nowrap; }
+        .github-link:hover { background: #1a3147; }
+        .footer-line { display: flex; justify-content: space-between; gap: 24px; border-top: 1px solid #8fa9bf29; padding-top: 24px; font-size: 11px; color: #90a6b9; }
+        .footer-line a { color: inherit; text-decoration: none; }
+        .skip-link { position: fixed; z-index: 10; top: -80px; left: 20px; padding: 12px 18px; background: white; color: #081426; }
+        .skip-link:focus { top: 15px; }
+        h1, h2, h3, .about-nav a, .next-link, .github-link {
+            font-family: "LXGW Neo ZhiSong", "霞鹜新致宋", "Songti SC", SimSun, serif;
+        }
+        .home h1, .section-heading h2, .work-meta h3, .contact h2 { font-weight: 400; }
+        .about-nav {
+            position: absolute; top: 26px; left: 50%; transform: translateX(-50%);
+            z-index: 3; display: flex; justify-content: center; gap: 30px;
+            width: max-content; max-width: calc(100% - 32px); padding: 16px 26px;
+            border: 1px solid #ffffff80; border-radius: 999px;
+            background: #f5faffb3; backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+        .about-nav a { font-size: 14px; color: #203e56; text-decoration: none; white-space: nowrap; }
+        .about-nav a:hover { color: #081426; }
+        @media (max-width: 680px) {
+            .about-nav { gap: 16px; padding: 14px 18px; }
+            .about-nav a { font-size: 12px; }
+            .masthead { padding-top: 24px; gap: 16px; }
+            .brand { font-size: 14px; }
+            .nav-links { gap: 18px; }
+            .nav-links a { font-size: 12px; }
+            .brand-dot { margin-right: 7px; width: 6px; height: 6px; }
+            .home h1 { font-size: clamp(42px, 12vw, 80px); }
+            .hero-description { font-size: 15px; }
+            .orbit-art { width: 100vw; right: -55%; top: 28%; }
+            .hero-footer { font-size: 9px; letter-spacing: 0.06em; }
+            .section-heading { display: block; margin-bottom: 32px; }
+            .section-heading > p { margin-top: 22px; }
+            .work-grid { grid-template-columns: 1fr; gap: 40px; }
+            .work-card:nth-child(2) { padding-top: 0; }
+            .contact-row { align-items: start; flex-direction: column; padding-bottom: 48px; }
+            .sky-caption p { font-size: 10px; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
             .home, .star { animation: none; }
             .star { opacity: 0.6; }
             .petal { display: none; }
             .about-photo, .about::after { animation: none; }
-        }
-        /* ===== 第二页：蓝色半透明主题定制 ===== */
-        
-        /* 1. 外层面板背景改为半透明冰蓝 */
-        .about .content {
-            background: rgba(235, 248, 255, 0.45); 
-            border-color: rgba(149, 200, 230, 0.5);
-        }
-
-        /* 2. 面板大标题与副标题文字：深蓝 + 半透明 */
-        .about h2 {
-            color: rgba(24, 68, 114, 0.85); 
-        }
-        .about > .content > p {
-            color: rgba(42, 92, 138, 0.8); 
-        }
-
-        /* 3. 卡片背景与边框：进一步提高透明度，融入背景 */
-        .about .card {
-            background: rgba(255, 255, 255, 0.35); 
-            border: 1px solid rgba(149, 200, 230, 0.4);
-        }
-
-        /* 4. 卡片内的标题与正文：蓝色半透明 */
-        .about .card h3 {
-            color: rgba(24, 68, 114, 0.85); 
-        }
-        .about .card p {
-            color: rgba(48, 102, 147, 0.75); 
-        }
-
-        /* 5. 按钮样式：微透蓝底 + 深蓝文字 */
-        .about .card-link, 
-        .about .next-link {
-            color: rgba(24, 68, 114, 0.9);
-            background: rgba(149, 200, 230, 0.3);
-            border: 1px solid rgba(149, 200, 230, 0.5);
-        }
-
-        /* 6. 按钮悬停效果：加深颜色 */
-        .about .card-link:hover, 
-        .about .next-link:hover {
-            background: rgba(149, 200, 230, 0.65);
-            color: rgba(10, 40, 75, 0.95);
-            border-color: rgba(149, 200, 230, 0.8);
-        }
-
-        /* 替换为：通栏大横条毛玻璃导航 */
-        .about-nav {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 24px 5%; /* 增加上下内边距，让横条更宽大厚实 */
-            display: flex;
-            justify-content: center;
-            gap: 56px; /* 拉大文字之间的间距，避免在大横条里显得拥挤 */
-            z-index: 10;
-            
-            /* 核心：玻璃渐变底色与强模糊效果 */
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.15));
-            backdrop-filter: blur(16px) saturate(120%);
-            -webkit-backdrop-filter: blur(16px) saturate(120%);
-            
-            /* 核心：因为紧贴顶部，所以取消了上边框，只保留底部的切边反光和分割线 */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.7);
-            
-            /* 大横条的底部弥散阴影 */
-            box-shadow: 0 12px 32px 0 rgba(31, 38, 135, 0.08);
-        }
-
-        .about-nav a {
-            color: rgba(24, 68, 114, 0.95);
-            text-decoration: none;
-            font-size: 1.15rem; /* 字体稍微放大一点，撑起横条的体量感 */
-            font-weight: 600;
-            letter-spacing: 2px;
-            transition: color 0.3s ease, text-shadow 0.3s ease;
-        }
-
-        .about-nav a:hover {
-            color: #081426;
-            text-shadow: 0 0 12px rgba(255, 255, 255, 0.9); 
-        }
-
-        /* 将霞鹜新致宋应用到所有标题、导航栏和按钮 */
-        h1, h2, h3, .about-nav a, .card-link, .next-link {
-            font-family: "LXGW Neo ZhiSong", "霞鹜新致宋", "仿宋", FangSong, serif;
-            font-weight: normal; /* 霞鹜新致宋本身较细，保持 normal 质感最好 */
+            .home::after { filter: none; }
+            .about-photo { filter: saturate(0.85) brightness(1.15) contrast(0.95); }
+            .work-visual img { transition: none; }
         }
     </style>
 </head>
 <body>
+    <a class="skip-link" href="#projects">跳到作品</a>
+    <main>
     <section class="section home" id="home">
+        <header class="masthead">
+            <a class="brand" href="#home"><span class="brand-dot" aria-hidden="true"></span>Sage / Plateau</a>
+            <nav class="nav-links" aria-label="主导航">
+                <a href="#about">随笔</a>
+                <a href="#projects">作品</a>
+                <a href="#contact">联系</a>
+            </nav>
+        </header>
         <div class="stars" aria-hidden="true"></div>
+        <div class="orbit-art" aria-hidden="true"></div>
         <div class="content">
+            <p class="eyebrow">A personal orbit · 个人记录</p>
             <h1>VoidOrbit0</h1>
-            <p>欢迎来到我的个人主页</p>
-            <a class="next-link" href="#about">向下探索</a>
+            <p class="hero-description"><span>在星空与日常之间，</span><span>记录一些看见的风景，和正在发生的想法。</span></p>
+            <a class="next-link" href="#about">向下探索 <span aria-hidden="true">↓</span></a>
         </div>
+        <div class="hero-footer"><span>PHOTOGRAPHY &amp; CODE</span><span>01 — 从星空出发</span></div>
     </section>
 
-    <section class="section about" id="about">
-        
-        
-        <!-- 新增的白色半透明导航栏 -->
-        <nav class="about-nav">
-            <a href="#home">返回首页</a>
-            <a href="#about">探索指南</a>
-            <a href="#projects">项目空间</a>
-            <a href="#contact">留言板</a>
+    <section class="section about" id="about" aria-labelledby="journal-title">
+        <nav class="about-nav" aria-label="探索导航">
+            <a href="#home">返回首页</a><a href="#about">我的随笔</a>
+            <a href="#projects">项目空间</a><a href="#contact">联系我</a>
         </nav>
-
-        <img
-            class="about-photo"
-            src="image/about-photo.jpg"
-            alt=""
-            aria-hidden="true"
-            loading="lazy"
-            decoding="async"
-        >
-        <!-- 下面是你原本的 petals 和 content 代码... -->
         <img
             class="about-photo"
             src="image/about-photo.jpg"
@@ -390,25 +426,53 @@
             decoding="async"
         >
         <div class="petals" aria-hidden="true"></div>
+        <div class="journal">
+            <div class="journal-heading">
+                <p class="eyebrow">02 / Journal</p>
+                <h2 id="journal-title">我的随笔。</h2>
+                <p>一些日常，一些想法。<br>把值得停留的瞬间，慢慢写下来。</p>
+            </div>
+            <ol class="essay-list" aria-label="随笔目录">
+                <li><a class="essay-link" href="essays/daily.html"><span class="essay-number">01</span><div><span class="essay-meta">日常 · 待填写</span><h3>日常片刻</h3><p>留给生活中的小事，和偶然想记住的瞬间。</p></div><span class="essay-arrow" aria-hidden="true">↗</span></a></li>
+                <li><a class="essay-link" href="essays/sky.html"><span class="essay-number">02</span><div><span class="essay-meta">摄影 · 待填写</span><h3>镜头之外</h3><p>留给照片背后的故事，以及按下快门时的心情。</p></div><span class="essay-arrow" aria-hidden="true">↗</span></a></li>
+                <li><a class="essay-link" href="essays/thoughts.html"><span class="essay-number">03</span><div><span class="essay-meta">思考 · 待填写</span><h3>还没想好的答案</h3><p>留给零散的念头、问题和正在发生的变化。</p></div><span class="essay-arrow" aria-hidden="true">↗</span></a></li>
+            </ol>
+        </div>
+        <div class="sky-caption"><p>随笔集 / 慢慢积攒</p><a href="#projects">继续看作品 ↓</a></div>
     </section>
 
     <section class="section projects" id="projects">
         <div class="petals" aria-hidden="true"></div>
-        <div class="content">
-            <h2>我的作品</h2>
-            <p>这里可以展示你的 GitHub 项目、作品图片和项目介绍。</p>
-            <a class="next-link" href="#contact">联系我</a>
+        <div class="section-heading">
+            <div><p class="eyebrow">03 / Selected things</p><h2>一些记录，一些探索。</h2></div>
+            <p>用镜头留住片刻，<br>用代码搭建自己的小小世界。</p>
+        </div>
+        <div class="work-grid">
+            <article class="work-card">
+                <a class="work-visual" href="image/about-photo.jpg" target="_blank" rel="noopener" aria-label="查看蓝天摄影原图（新标签页）">
+                    <img src="image/about-photo.jpg" alt="蓝色天空下层叠的白云" loading="lazy" decoding="async">
+                    <span class="work-badge">PHOTOGRAPHY</span><span class="work-arrow" aria-hidden="true">↗</span>
+                </a>
+                <div class="work-meta"><div><h3>天空的片刻</h3><p>摄影记录 / 点击查看原图</p></div><span>01</span></div>
+            </article>
+            <article class="work-card">
+                <a class="work-visual code-visual" href="https://github.com/Sagexhy/plateau" target="_blank" rel="noopener" aria-label="查看个人主页 GitHub 源码（新标签页）">
+                    <span class="work-badge">WEB EXPERIMENT</span><span class="code-name">VoidOrbit0<span style="color: #a1c7dc">.</span></span><span class="work-arrow" aria-hidden="true">↗</span>
+                </a>
+                <div class="work-meta"><div><h3>我的一小片宇宙</h3><p>个人网站 / 持续生长中</p></div><span>02</span></div>
+            </article>
         </div>
     </section>
 
     <section class="section contact" id="contact">
         <div class="petals" aria-hidden="true"></div>
-        <div class="content">
-            <h2>联系我</h2>
-            <p>GitHub：VoidOrbit0</p>
-            <a class="next-link" href="#home">返回顶部</a>
+        <div class="contact-inner">
+            <p class="eyebrow">04 / Stay connected</p>
+            <div class="contact-row"><div><h2>很高兴，在这里遇见你。</h2><p>更多记录与项目，继续在 GitHub 更新。</p></div><a class="github-link" href="https://github.com/Sagexhy" target="_blank" rel="noopener">去 GitHub 看看 ↗</a></div>
+            <footer class="footer-line"><span>© Sage · Plateau</span><a href="#home">回到星空 ↑</a></footer>
         </div>
     </section>
+    </main>
 
     <script>
         const starsContainer = document.querySelector(".stars");
