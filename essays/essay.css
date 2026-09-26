@@ -16,12 +16,12 @@ h1 { font-family: "LXGW Neo ZhiSong", "Songti SC", SimSun, serif; font-size: cla
 .article-body img { display: block; max-width: 100%; height: auto; margin: 28px auto; }
 .collection-intro { max-width: 620px; color: #526d7e; font-size: 15px; line-height: 1.9; }
 .collection-list { list-style: none; margin: 38px 0 72px; padding: 0; border-top: 1px solid #dbe5ea; }
-.collection-link { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; gap: 24px; padding: 26px 4px; border-bottom: 1px solid #dbe5ea; transition: transform .25s ease, color .25s ease; }
+.collection-link { display: grid; grid-template-columns: 52px 1fr; align-items: center; gap: 24px; padding: 26px 4px; border-bottom: 1px solid #dbe5ea; transition: transform .25s ease, color .25s ease; }
 .collection-link:hover { transform: translateX(6px); }
 .collection-number { color: #7895a5; font-size: 11px; letter-spacing: .14em; }
 .collection-text h2 { margin: 0 0 8px; font-family: "LXGW Neo ZhiSong", "Songti SC", SimSun, serif; font-size: clamp(22px, 3vw, 28px); font-weight: 400; }
 .collection-text p { margin: 0; color: #627b89; font-size: 13px; line-height: 1.7; }
-.collection-arrow { color: #7895a5; font-size: 18px; }
+.collection-arrow { display: none; }
 .article-pagination { display: flex; justify-content: space-between; gap: 26px; border-top: 1px solid #dbe5ea; padding: 28px 0; font-size: 13px; line-height: 1.8; }
 footer { text-align: center; padding: 52px 24px 30px; font-size: 11px; color: #627b89; }
-@media(max-width: 600px) { main { margin-top: 28px; padding-inline: 24px; } .reading-nav { padding-inline: 24px; font-size: 12px; } .article-body { font-size: 16px; } .collection-link { grid-template-columns: 38px 1fr auto; gap: 12px; padding-block: 22px; } .article-pagination { flex-wrap: wrap; } }
+@media(max-width: 600px) { main { margin-top: 28px; padding-inline: 24px; } .reading-nav { padding-inline: 24px; font-size: 12px; } .article-body { font-size: 16px; } .collection-link { grid-template-columns: 38px 1fr; gap: 12px; padding-block: 22px; } .article-pagination { flex-wrap: wrap; } }
